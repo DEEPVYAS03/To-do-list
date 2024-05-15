@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { FaEnvelope, FaRegEyeSlash, FaRegEye } from "react-icons/fa6";
+import { FaEnvelope, FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 import { FiUser } from "react-icons/fi";
 import { IoMailOutline, IoLockClosedOutline } from "react-icons/io5";
 
@@ -15,7 +15,6 @@ const Signup = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false);
-  const [termsError, setTermsError] = useState("");
 
   let navigate = useNavigate();
 
@@ -54,15 +53,11 @@ const Signup = () => {
     }
   };
 
-  //   form validation
   const validateForm = () => {
     let errors = {};
-
-    // Check if any field is empty
-    if (!name.trim() || !email.trim() || !password.trim()) {
+    if (!name.trim() ||!email.trim() ||!password.trim()) {
       errors.general = "All fields are required";
     } else {
-      // Check individual field validations
       if (!/\S+@\S+\.\S+/.test(email)) {
         errors.email = "Email is invalid";
       }
@@ -70,12 +65,9 @@ const Signup = () => {
         errors.password = "Password must be at least 6 characters";
       }
     }
-
-    // Check if terms are accepted
     if (!termsAccepted) {
       errors.terms = "Please accept all terms and conditions";
     }
-
     return errors;
   };
 
@@ -97,19 +89,19 @@ const Signup = () => {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-blue-500 font-poppins">
-      <div className="bg-white w-96 p-8 rounded-lg">
+    <div className="min-h-screen flex items-center justify-center bg-blue-500 font-poppins">
+      <div className="bg-white w-full max-w-md mx-auto sm:max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg p-4 sm:p-8 rounded-lg">
         <form onSubmit={handleSubmit}>
-          <span className="block text-3xl font-semibold mb-6">
+          <span className="block text-3xl font-semibold mb-6 text-center">
             Registration
           </span>
-          <div className="mb-8 relative">
+          <div className="mb-6 relative">
             <FiUser
               className={`absolute top-1/2 left-1 transform -translate-y-1/2 text-gray-400 text-lg ${
-                inputFocused === "name" ? "text-blue-600" : ""
+                inputFocused === "name"? "text-blue-600" : ""
               }`}
               size={24}
-              style={{ color: inputFocused === "name" ? "#2563EB" : "" }}
+              style={{ color: inputFocused === "name"? "#2563EB" : "" }}
             />
             <input
               type="text"
@@ -117,19 +109,19 @@ const Signup = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               className={`w-full pl-10 px-3 py-2 border-b-2 border-gray-300 focus:border-blue-500 outline-none ${
-                submitted && !name.trim() ? "border-red-500" : ""
+                submitted &&!name.trim()? "border-red-500" : ""
               }`}
               onFocus={() => handleInputFocus("name")}
               onBlur={handleInputBlur}
             />
           </div>
-          <div className="mb-8 relative">
+          <div className="mb-6 relative">
             <IoMailOutline
               className={`absolute top-1/2 left-1 transform -translate-y-1/2 text-gray-400 text-lg ${
-                inputFocused === "email" ? "text-blue-600" : ""
+                inputFocused === "email"? "text-blue-600" : ""
               }`}
               size={24}
-              style={{ color: inputFocused === "email" ? "#2563EB" : "" }}
+              style={{ color: inputFocused === "email"? "#2563EB" : "" }}
             />
             <input
               type="text"
@@ -137,31 +129,27 @@ const Signup = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className={`w-full pl-10 px-3 py-2 border-b-2 border-gray-300 focus:border-blue-500 outline-none ${
-                submitted && (!email.trim() || !/\S+@\S+\.\S+/.test(email))
-                  ? "border-red-500"
+                submitted && (!email.trim() ||!/\S+@\S+\.\S+/.test(email))
+                 ? "border-red-500"
                   : ""
               }`}
               onFocus={() => handleInputFocus("email")}
               onBlur={handleInputBlur}
             />
           </div>
-          <div
-            className={`mb-8 relative ${
-              inputFocused === "password" ? "focused" : ""
-            }`}
-          >
+          <div className={`mb-6 relative ${inputFocused === "password"? "focused" : ""}`}>
             <IoLockClosedOutline
               className={`absolute top-1/2 left-1 transform -translate-y-1/2 text-gray-400 text-lg ${
-                inputFocused === "password" ? "text-blue-600" : ""
+                inputFocused === "password"? "text-blue-600" : ""
               }`}
               size={24}
-              style={{ color: inputFocused === "password" ? "#2563EB" : "" }}
+              style={{ color: inputFocused === "password"? "#2563EB" : "" }}
             />
             <input
-              type={showPassword ? "text" : "password"}
+              type={showPassword? "text" : "password"}
               className={`w-full pl-10 px-3 py-2 border-b-2 border-gray-300 focus:border-blue-500 outline-none ${
                 submitted && (!password.trim() || password.length < 6)
-                  ? "border-red-500"
+                 ? "border-red-500"
                   : ""
               }`}
               placeholder="Enter your password"
@@ -172,18 +160,18 @@ const Signup = () => {
             />
             <i
               className={`absolute top-1/2 transform -translate-y-1/2 right-0 text-gray-500 cursor-pointer ${
-                inputFocused === "password" ? "text-blue-600" : ""
+                inputFocused === "password"? "text-blue-600" : ""
               }`}
               onClick={togglePasswordVisibility}
             >
-              {showPassword ? (
-                <FaRegEyeSlash size={23} style={{ color: inputFocused === "password" ? "#2563EB" : "" }} />
+              {showPassword? (
+                <FaRegEyeSlash size={23} style={{ color: inputFocused === "password"? "#2563EB" : "" }} />
               ) : (
-                <FaRegEye size={23} style={{ color: inputFocused === "password" ? "#2563EB" : "" }} />
+                <FaRegEye size={23} style={{ color: inputFocused === "password"? "#2563EB" : "" }} />
               )}
             </i>
           </div>
-          <div className="mb-8 flex items-center">
+          <div className="mb-6 flex items-center">
             <input
               type="checkbox"
               id="termCon"
@@ -194,12 +182,12 @@ const Signup = () => {
               I accept all terms and conditions
             </label>
           </div>
-          {submitted && !termsAccepted && (
+          {submitted &&!termsAccepted && (
             <p className="text-red-500 text-sm mb-4">
-              {termsError}
+              Please accept all terms and conditions
             </p>
           )}
-          <div className="mb-8">
+          <div className="mb-6">
             <input
               type="submit"
               value="Signup"
@@ -207,7 +195,7 @@ const Signup = () => {
             />
           </div>
         </form>
-        <div className="text-center">
+        <div className="text-center mt-4">
           <span className="text-sm text-gray-700">
             Already a member?{" "}
             <Link to="/" className="text-blue-500 hover:underline">
