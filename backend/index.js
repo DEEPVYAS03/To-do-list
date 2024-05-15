@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 5000;
 
 // importing the routes
 const userRoutes = require('./routes/userRoutes');
-
+const todoRoutes = require('./routes/todoRoutes');
 
 // middleware
 app.use(cors());
@@ -50,6 +50,7 @@ app.get('/',(req,res)=>{
 // using the routes
 
 app.use('/api',userRoutes);
+app.use('/api',todoRoutes)
 
 
 

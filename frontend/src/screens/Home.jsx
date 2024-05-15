@@ -7,15 +7,30 @@ import {
 import { FiEdit3 } from "react-icons/fi";
 import { MdDeleteOutline, MdOutlineLogout } from "react-icons/md"; // Import the MdOutlineLogout icon
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
 
 const Home = () => {
+
+  const [title, setTitle] = useState("");
+  const [todos, setTodos] = useState([]);
+  const [completedTodos, setCompletedTodos] = useState([]);
+
   const navigate = useNavigate();
+  const userId = localStorage.getItem("userId");
   const handleLogout = () => {
     console.log("User logged out successfully");
     navigate("/");
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
   };
+
+  const handleAdd = async() => {
+
+    const response = await axios.post("http://localhost:5000/api/createTodo", {title,userId});
+    console.log(response.data);
+    setTitle('')
+  }
 
   return (
     <div className="relative h-screen w-screen flex items-center justify-center bg-blue-500 font-poppins">
@@ -38,10 +53,12 @@ const Home = () => {
           <div className="flex justify-center w-full mt-2">
             <input
               type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               placeholder="Add a new todo"
               className="min-w-[8rem] sm:min-w-[10rem] md:min-w-96 px-3 border-b-2 border-gray-300 focus:border-blue-500 outline-none"
             />
-            <button className="bg-blue-500 text-white py-2 px-4 rounded ml-10 hover:bg-blue-600">
+            <button className="bg-blue-500 text-white py-2 px-4 rounded ml-10 hover:bg-blue-600" onClick={handleAdd}>
               Add
             </button>
           </div>
@@ -54,7 +71,10 @@ const Home = () => {
 
             {/* todo */}
             <div className="flex items-center mt-3 justify-between">
-              <div>Task Name</div>
+              <div>
+                Task Name
+                <div className="text-gray-500 text-sm">May 15, 2024</div>
+              </div>
               <div className="flex gap-3">
                 <IoIosCheckmarkCircleOutline
                   className="text-green-500 mr-2"
@@ -74,7 +94,10 @@ const Home = () => {
 
             {/* todo */}
             <div className="flex items-center mt-3 justify-between">
-              <div className="line-through text-gray-500">Task Name</div>
+              <div>
+                <div className="line-through text-gray-500">Task Name</div>
+                <div className="text-gray-500 text-sm">May 14, 2024</div>
+              </div>
               <div className="flex gap-3">
                 <IoIosCheckmarkCircle
                   className="text-green-500 mr-2"
