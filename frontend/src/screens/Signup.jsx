@@ -4,11 +4,14 @@ import { Link } from "react-router-dom";
 import { FaEnvelope, FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 import { FiUser } from "react-icons/fi";
 import { IoMailOutline, IoLockClosedOutline } from "react-icons/io5";
+import axios from "axios";
 
 const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  // for styling
   const [showPassword, setShowPassword] = useState(false);
   const [inputFocused, setInputFocused] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -40,8 +43,21 @@ const Signup = () => {
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length === 0 && termsAccepted) {
       try {
-        navigate("/");
-        console.log("User registered successfully");
+
+        const response = await axios.post('http://localhost:5000/api/signup', {name,email,password});
+  
+        if(response.data.status === "failure"){
+          setModalContent(response.data.message);
+          setShowModal(true);
+          return;
+        }
+        else{
+          
+          navigate("/");
+          alert("User registered successfully");
+        }
+
+        
       } catch (err) {
         alert(err.message);
       }
@@ -55,7 +71,7 @@ const Signup = () => {
 
   const validateForm = () => {
     let errors = {};
-    if (!name.trim() ||!email.trim() ||!password.trim()) {
+    if (!name.trim() || !email.trim() || !password.trim()) {
       errors.general = "All fields are required";
     } else {
       if (!/\S+@\S+\.\S+/.test(email)) {
@@ -98,10 +114,10 @@ const Signup = () => {
           <div className="mb-6 relative">
             <FiUser
               className={`absolute top-1/2 left-1 transform -translate-y-1/2 text-gray-400 text-lg ${
-                inputFocused === "name"? "text-blue-600" : ""
+                inputFocused === "name" ? "text-blue-600" : ""
               }`}
               size={24}
-              style={{ color: inputFocused === "name"? "#2563EB" : "" }}
+              style={{ color: inputFocused === "name" ? "#2563EB" : "" }}
             />
             <input
               type="text"
@@ -109,7 +125,7 @@ const Signup = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               className={`w-full pl-10 px-3 py-2 border-b-2 border-gray-300 focus:border-blue-500 outline-none ${
-                submitted &&!name.trim()? "border-red-500" : ""
+                submitted && !name.trim() ? "border-red-500" : ""
               }`}
               onFocus={() => handleInputFocus("name")}
               onBlur={handleInputBlur}
@@ -118,10 +134,10 @@ const Signup = () => {
           <div className="mb-6 relative">
             <IoMailOutline
               className={`absolute top-1/2 left-1 transform -translate-y-1/2 text-gray-400 text-lg ${
-                inputFocused === "email"? "text-blue-600" : ""
+                inputFocused === "email" ? "text-blue-600" : ""
               }`}
               size={24}
-              style={{ color: inputFocused === "email"? "#2563EB" : "" }}
+              style={{ color: inputFocused === "email" ? "#2563EB" : "" }}
             />
             <input
               type="text"
@@ -129,27 +145,31 @@ const Signup = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className={`w-full pl-10 px-3 py-2 border-b-2 border-gray-300 focus:border-blue-500 outline-none ${
-                submitted && (!email.trim() ||!/\S+@\S+\.\S+/.test(email))
-                 ? "border-red-500"
+                submitted && (!email.trim() || !/\S+@\S+\.\S+/.test(email))
+                  ? "border-red-500"
                   : ""
               }`}
               onFocus={() => handleInputFocus("email")}
               onBlur={handleInputBlur}
             />
           </div>
-          <div className={`mb-6 relative ${inputFocused === "password"? "focused" : ""}`}>
+          <div
+            className={`mb-6 relative ${
+              inputFocused === "password" ? "focused" : ""
+            }`}
+          >
             <IoLockClosedOutline
               className={`absolute top-1/2 left-1 transform -translate-y-1/2 text-gray-400 text-lg ${
-                inputFocused === "password"? "text-blue-600" : ""
+                inputFocused === "password" ? "text-blue-600" : ""
               }`}
               size={24}
-              style={{ color: inputFocused === "password"? "#2563EB" : "" }}
+              style={{ color: inputFocused === "password" ? "#2563EB" : "" }}
             />
             <input
-              type={showPassword? "text" : "password"}
+              type={showPassword ? "text" : "password"}
               className={`w-full pl-10 px-3 py-2 border-b-2 border-gray-300 focus:border-blue-500 outline-none ${
                 submitted && (!password.trim() || password.length < 6)
-                 ? "border-red-500"
+                  ? "border-red-500"
                   : ""
               }`}
               placeholder="Enter your password"
@@ -160,14 +180,24 @@ const Signup = () => {
             />
             <i
               className={`absolute top-1/2 transform -translate-y-1/2 right-0 text-gray-500 cursor-pointer ${
-                inputFocused === "password"? "text-blue-600" : ""
+                inputFocused === "password" ? "text-blue-600" : ""
               }`}
               onClick={togglePasswordVisibility}
             >
-              {showPassword? (
-                <FaRegEyeSlash size={23} style={{ color: inputFocused === "password"? "#2563EB" : "" }} />
+              {showPassword ? (
+                <FaRegEyeSlash
+                  size={23}
+                  style={{
+                    color: inputFocused === "password" ? "#2563EB" : "",
+                  }}
+                />
               ) : (
-                <FaRegEye size={23} style={{ color: inputFocused === "password"? "#2563EB" : "" }} />
+                <FaRegEye
+                  size={23}
+                  style={{
+                    color: inputFocused === "password" ? "#2563EB" : "",
+                  }}
+                />
               )}
             </i>
           </div>
@@ -182,7 +212,7 @@ const Signup = () => {
               I accept all terms and conditions
             </label>
           </div>
-          {submitted &&!termsAccepted && (
+          {submitted && !termsAccepted && (
             <p className="text-red-500 text-sm mb-4">
               Please accept all terms and conditions
             </p>

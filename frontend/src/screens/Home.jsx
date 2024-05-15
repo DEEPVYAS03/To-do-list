@@ -5,7 +5,7 @@ import {
   IoIosCheckmarkCircle,
 } from "react-icons/io";
 import { FiEdit3 } from "react-icons/fi";
-import { MdDeleteOutline } from "react-icons/md";
+import { MdDeleteOutline, MdOutlineLogout } from "react-icons/md"; // Import the MdOutlineLogout icon
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
@@ -13,15 +13,19 @@ const Home = () => {
   const handleLogout = () => {
     console.log("User logged out successfully");
     navigate("/");
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
   };
 
   return (
     <div className="relative h-screen w-screen flex items-center justify-center bg-blue-500 font-poppins">
       <div
-        className="top-5 right-5 bg-white p-2 rounded-lg hover:font-semibold hover:shadow-md cursor-pointer absolute"
+        className="top-5 right-5 bg-white p-2 rounded-lg hover:font-semibold hover:shadow-md cursor-pointer absolute flex items-center"
         onClick={handleLogout}
       >
-        Logout
+        {/* Place the MdOutlineLogout icon next to the "Logout" text */}
+        <span>Logout</span>
+        <MdOutlineLogout className="text-black ml-2" size={20} />
       </div>
       <div className="p-8 rounded-lg -mt-60 bg-white flex items-center ">
         <div className="">

@@ -3,10 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { IoMailOutline, IoLockClosedOutline } from "react-icons/io5";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
+import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  // for styling
   const [showPassword, setShowPassword] = useState(false);
   const [inputFocused, setInputFocused] = useState("");
 
@@ -28,8 +31,20 @@ const Login = () => {
     e.preventDefault();
     
     try {
-      navigate("/home");
-      console.log("User logged in successfully");
+      const response = await axios.post("http://localhost:5000/api/login", { email, password });
+      console.log(response.data);
+
+      if (response.data.status === "failure") {
+        alert(response.data.message);
+        return;
+      }
+      else{
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("userId", response.data.userId);
+        navigate("/home");
+        alert("User logged in successfully");
+      }
+
     } catch (err) {
       alert(err.message);
     }

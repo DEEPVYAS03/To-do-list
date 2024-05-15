@@ -11,7 +11,10 @@ connectDB();
 // setting up the port
 const PORT = process.env.PORT || 5000;
 
+
+
 // importing the routes
+const userRoutes = require('./routes/userRoutes');
 
 
 // middleware
@@ -42,9 +45,11 @@ app.get('/',(req,res)=>{
 
 
 
-// other routes
 
 
+// using the routes
+
+app.use('/api',userRoutes);
 
 
 
