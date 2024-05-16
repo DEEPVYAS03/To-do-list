@@ -3,13 +3,14 @@ const router = express.Router();
 
 // importing controllers
 
-const {createTodo, getTodos, updateTodo, deleteTodo } = require('../controllers/todoController');
+const {createTodo, getTodos, updateTodo, deleteTodo ,statusUpdate } = require('../controllers/todoController');
 
 // routes
-router.post('/createTodo', createTodo);
+router.post('/create/todo', createTodo);
 router.get('/getTodos/:userId', getTodos);
-router.put('/updateTodo', updateTodo);
-router.delete('/deleteTodo', deleteTodo);
+router.put('/update/todo', updateTodo);
+router.put('/update/status/:todoId', statusUpdate);  
+router.delete('/delete/todo/:todoId', deleteTodo);
 
 
 module.exports = router;
