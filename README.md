@@ -16,11 +16,6 @@ https://tnitfrontend-deep-vyas-projects.vercel.app/
 
 
 
-## Screenshots
-
-![App Screenshot](https://drive.google.com/file/d/1vrzBZlhF4DYixV8txBI8APpwkI5eEr4J/view?usp=sharing)
-
-
 ## Run Locally
 
 ### Clone the project
