@@ -25,7 +25,7 @@ const Home = () => {
 
   const fetchTodos = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/getTodos/${userId}`);
+      const response = await axios.get(`https://tnitbackend-deep-vyas-projects.vercel.app/api/getTodos/${userId}`);
       setActiveTodos(response.data.todos.filter((todo) => !todo.status));
       setCompletedTodos(response.data.todos.filter((todo) => todo.status));
     } catch (err) {
@@ -43,7 +43,7 @@ const Home = () => {
 
   const statusUpdate = async (todoId) => {
     try {
-      await axios.put(`http://localhost:5000/api/update/status/${todoId}`);
+      await axios.put(`https://tnitbackend-deep-vyas-projects.vercel.app/api/update/status/${todoId}`);
       fetchTodos();
     } catch (err) {
       console.error(err);
@@ -55,14 +55,14 @@ const Home = () => {
       setIsModalOpen(true);
       return;
     }
-    await axios.post("http://localhost:5000/api/create/todo", { title, userId });
+    await axios.post("https://tnitbackend-deep-vyas-projects.vercel.app/api/create/todo", { title, userId });
     fetchTodos();
     setTitle("");
   };
 
   const handleDelete = async (todoId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/delete/todo/${todoId}`);
+      await axios.delete(`https://tnitbackend-deep-vyas-projects.vercel.app/api/delete/todo/${todoId}`);
       fetchTodos();
     } catch (err) {
       console.error(err);
@@ -77,7 +77,7 @@ const Home = () => {
 
   const handleSaveEdit = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/update/todo`, {
+      await axios.put(`https://tnitbackend-deep-vyas-projects.vercel.app/api/update/todo`, {
         title,
         todoId: editTodoId
       });

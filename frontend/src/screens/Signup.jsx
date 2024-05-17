@@ -44,7 +44,7 @@ const Signup = () => {
     if (Object.keys(validationErrors).length === 0 && termsAccepted) {
       try {
 
-        const response = await axios.post('http://localhost:5000/api/signup', {name,email,password});
+        const response = await axios.post('https://tnitbackend-deep-vyas-projects.vercel.app/api/signup', {name,email,password});
   
         if(response.data.status === "failure"){
           setModalContent(response.data.message);

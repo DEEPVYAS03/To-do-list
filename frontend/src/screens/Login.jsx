@@ -31,7 +31,7 @@ const Login = () => {
     e.preventDefault();
     
     try {
-      const response = await axios.post("http://localhost:5000/api/login", { email, password });
+      const response = await axios.post("https://tnitbackend-deep-vyas-projects.vercel.app/api/login", { email, password });
 
       if (response.data.status === "failure") {
         alert(response.data.message);
