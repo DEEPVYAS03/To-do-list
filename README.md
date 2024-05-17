@@ -21,21 +21,22 @@ https://tnitfrontend-deep-vyas-projects.vercel.app/
 
 git clone https://github.com/DEEPVYAS03/to-do-list.git
 
+
 For Backend :
 
-cd backend
-npm i
-adding .env in root directory 
-.env consists of
-1.MONGO_URI
-2.PORT
-3.JWT_SECRET
-nodemon
+1.cd backend
+2.npm i
+3.adding .env in root directory 
+    .env consists of
+        1.MONGO_URI
+        2.PORT
+        3.JWT_SECRET
+4.nodemon
 
 
 For frontend :
 
-cd frontend
-npm i 
-replace https://tnitbackend-deep-vyas-projects.vercel.app with http://localhost:5000
-npm start
+1.cd frontend
+2.npm i 
+3.replace https://tnitbackend-deep-vyas-projects.vercel.app with http://localhost:5000
+4.npm start
