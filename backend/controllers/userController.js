@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const signup = async (req, res) => {
     try{
-        console.log(req.body);
+        // console.log(req.body);
         const {name, email, password} = req.body;
         
         // Check if the user with the given email already exists
@@ -39,7 +39,6 @@ const signup = async (req, res) => {
 
 const login = async (req, res) => {
     try{
-        console.log(req.body);
         const user = await User.findOne({ email : req.body.email });
         if (!user) {
             return res.status(202).send({ status: "failure", message: 'Invalid credentials' })

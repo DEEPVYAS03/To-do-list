@@ -32,7 +32,6 @@ const Login = () => {
     
     try {
       const response = await axios.post("http://localhost:5000/api/login", { email, password });
-      console.log(response.data);
 
       if (response.data.status === "failure") {
         alert(response.data.message);
@@ -118,6 +117,7 @@ const Login = () => {
           </span>
         </div>
       </div>
+      
     </div>
   );
 };
