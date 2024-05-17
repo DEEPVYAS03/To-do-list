@@ -13,7 +13,16 @@ Frontend deployed link :
 https://tnitfrontend-deep-vyas-projects.vercel.app/
 
 
+## Screenshots 
 
+Signup
+![signup](https://github.com/DEEPVYAS03/to-do-list/assets/113181349/8b80dbd8-9f29-4e45-9e66-8aa594e81ada)
+
+Login
+![login](https://github.com/DEEPVYAS03/to-do-list/assets/113181349/7b87b2c3-f6c6-4994-aa44-4dea09ccbc31)
+
+Homepage
+![homepage](https://github.com/DEEPVYAS03/to-do-list/assets/113181349/ced9504a-418c-4f6b-9d98-ac596f534f52)
 
 
 ## Run Locally
@@ -23,7 +32,8 @@ https://tnitfrontend-deep-vyas-projects.vercel.app/
 ```bash
   git clone https://github.com/DEEPVYAS03/to-do-list.git
 ```
-### For Backend
+
+### For Backend :
 
 ```bash
   cd frontend
@@ -49,7 +59,8 @@ Start the server
   npm start or nodemon
 ```
 
-### For frontend
+
+### For frontend :
 
 ```bash
   cd frontend
