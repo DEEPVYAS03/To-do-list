@@ -13,30 +13,67 @@ Frontend deployed link :
 https://tnitfrontend-deep-vyas-projects.vercel.app/
 
 
+
+
+
 ## Screenshots
 
+![App Screenshot](https://drive.google.com/file/d/1vrzBZlhF4DYixV8txBI8APpwkI5eEr4J/view?usp=sharing)
 
 
-## Local setup instruction
+## Run Locally
 
-git clone https://github.com/DEEPVYAS03/to-do-list.git
+### Clone the project
+
+```bash
+  git clone https://github.com/DEEPVYAS03/to-do-list.git
+```
+### For Backend
+
+```bash
+  cd frontend
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Add .env in root directory 
+
+```bash
+  1.MONGO_URI
+  2.PORT
+  3.JWT_SECRET
+```
+
+Start the server
+
+```bash
+  npm start or nodemon
+```
+
+### For frontend
+
+```bash
+  cd frontend
+```
 
 
-For Backend :
+Install dependencies
 
-1.cd backend
-2.npm i
-3.adding .env in root directory 
-    .env consists of
-        1.MONGO_URI
-        2.PORT
-        3.JWT_SECRET
-4.nodemon
+```bash
+  npm install
+```
 
+Replacing deployed url with local url
 
-For frontend :
+```bash
+  replace https://tnitbackend-deep-vyas-projects.vercel.app with http://localhost:5000
+```
 
-1.cd frontend
-2.npm i 
-3.replace https://tnitbackend-deep-vyas-projects.vercel.app with http://localhost:5000
-4.npm start
+Start the server
+```bash
+  npm start
+```
