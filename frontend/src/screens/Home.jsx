@@ -18,8 +18,10 @@ const Home = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editTodoId, setEditTodoId] = useState(null);
   const userId = localStorage.getItem("userId");
+  const navigate = useNavigate();
 
-  useEffect(() => {
+
+  useEffect(() => {    
     fetchTodos();
   }, []);
 
@@ -33,7 +35,7 @@ const Home = () => {
     }
   };
 
-  const navigate = useNavigate();
+
   const handleLogout = () => {
     console.log("User logged out successfully");
     navigate("/");
