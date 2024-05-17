@@ -9,6 +9,8 @@ import { MdDeleteOutline, MdOutlineLogout } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Modal from "react-modal";
+import { useAuth } from "../context/authContext";
+
 
 const Home = () => {
   const [title, setTitle] = useState("");
@@ -17,17 +19,18 @@ const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editTodoId, setEditTodoId] = useState(null);
-  const userId = localStorage.getItem("userId");
+  const { userId, setUserId, token, setToken } = useAuth();
   const navigate = useNavigate();
 
-
-  useEffect(() => {    
+  useEffect(() => {
     fetchTodos();
   }, []);
 
   const fetchTodos = async () => {
     try {
-      const response = await axios.get(`https://tnitbackend-deep-vyas-projects.vercel.app/api/getTodos/${userId}`);
+      const response = await axios.get(
+        `https://tnitbackend-deep-vyas-projects.vercel.app/api/getTodos/${userId}`
+      );
       setActiveTodos(response.data.todos.filter((todo) => !todo.status));
       setCompletedTodos(response.data.todos.filter((todo) => todo.status));
     } catch (err) {
@@ -35,17 +38,20 @@ const Home = () => {
     }
   };
 
-
   const handleLogout = () => {
     console.log("User logged out successfully");
     navigate("/");
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
+    // localStorage.removeItem("token");
+    // localStorage.removeItem("userId");
+    setToken(null);
+    setUserId(null);
   };
 
   const statusUpdate = async (todoId) => {
     try {
-      await axios.put(`https://tnitbackend-deep-vyas-projects.vercel.app/api/update/status/${todoId}`);
+      await axios.put(
+        `https://tnitbackend-deep-vyas-projects.vercel.app/api/update/status/${todoId}`
+      );
       fetchTodos();
     } catch (err) {
       console.error(err);
@@ -57,14 +63,19 @@ const Home = () => {
       setIsModalOpen(true);
       return;
     }
-    await axios.post("https://tnitbackend-deep-vyas-projects.vercel.app/api/create/todo", { title, userId });
+    await axios.post(
+      "https://tnitbackend-deep-vyas-projects.vercel.app/api/create/todo",
+      { title, userId }
+    );
     fetchTodos();
     setTitle("");
   };
 
   const handleDelete = async (todoId) => {
     try {
-      await axios.delete(`https://tnitbackend-deep-vyas-projects.vercel.app/api/delete/todo/${todoId}`);
+      await axios.delete(
+        `https://tnitbackend-deep-vyas-projects.vercel.app/api/delete/todo/${todoId}`
+      );
       fetchTodos();
     } catch (err) {
       console.error(err);
@@ -79,10 +90,13 @@ const Home = () => {
 
   const handleSaveEdit = async () => {
     try {
-      await axios.put(`https://tnitbackend-deep-vyas-projects.vercel.app/api/update/todo`, {
-        title,
-        todoId: editTodoId
-      });
+      await axios.put(
+        `https://tnitbackend-deep-vyas-projects.vercel.app/api/update/todo`,
+        {
+          title,
+          todoId: editTodoId,
+        }
+      );
       setIsEditModalOpen(false);
       fetchTodos();
       setTitle("");
@@ -129,36 +143,39 @@ const Home = () => {
                 <span className="border-b-2">Active Todos</span>
               </div>
               <div className=" max-h-44 overflow-y-auto">
-                {activeTodos.map((activeTodo) => !activeTodo.status && (
-                  <div
-                    key={activeTodo._id}
-                    className="flex items-center mt-3 justify-between"
-                  >
-                    <div>
-                      {activeTodo.title}
-                      <div className="text-gray-500 text-sm">
-                        {new Date(activeTodo.date).toLocaleDateString()}
+                {activeTodos.map(
+                  (activeTodo) =>
+                    !activeTodo.status && (
+                      <div
+                        key={activeTodo._id}
+                        className="flex items-center mt-3 justify-between"
+                      >
+                        <div>
+                          {activeTodo.title}
+                          <div className="text-gray-500 text-sm">
+                            {new Date(activeTodo.date).toLocaleDateString()}
+                          </div>
+                        </div>
+                        <div className="flex gap-3">
+                          <IoIosCheckmarkCircleOutline
+                            className="text-green-500 mr-2 cursor-pointer"
+                            onClick={() => statusUpdate(activeTodo._id)}
+                            size={25}
+                          />
+                          <FiEdit3
+                            className="text-blue-500 mr-2 cursor-pointer"
+                            size={25}
+                            onClick={() => handleEdit(activeTodo)}
+                          />
+                          <MdDeleteOutline
+                            className="text-red-500 cursor-pointer"
+                            size={25}
+                            onClick={() => handleDelete(activeTodo._id)}
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex gap-3">
-                      <IoIosCheckmarkCircleOutline
-                        className="text-green-500 mr-2 cursor-pointer" 
-                        onClick={() => statusUpdate(activeTodo._id)}
-                        size={25}
-                      />
-                      <FiEdit3
-                        className="text-blue-500 mr-2 cursor-pointer"
-                        size={25}
-                        onClick={() => handleEdit(activeTodo)}
-                      />
-                      <MdDeleteOutline
-                        className="text-red-500 cursor-pointer"
-                        size={25}
-                        onClick={() => handleDelete(activeTodo._id)}
-                      />
-                    </div>
-                  </div>
-                ))}
+                    )
+                )}
               </div>
             </div>
 
@@ -167,38 +184,41 @@ const Home = () => {
                 <span className="border-b-2 ">Completed Todos</span>
               </div>
               <div className=" max-h-44 overflow-y-auto">
-                {completedTodos.map((completedTodo) => completedTodo.status && (
-                  <div
-                    key={completedTodo._id}
-                    className="flex items-center mt-3 justify-between"
-                  >
-                    <div>
-                      <div className="line-through text-gray-500">
-                        {completedTodo.title}
+                {completedTodos.map(
+                  (completedTodo) =>
+                    completedTodo.status && (
+                      <div
+                        key={completedTodo._id}
+                        className="flex items-center mt-3 justify-between"
+                      >
+                        <div>
+                          <div className="line-through text-gray-500">
+                            {completedTodo.title}
+                          </div>
+                          <div className="text-gray-500 text-sm">
+                            {new Date(completedTodo.date).toLocaleDateString()}
+                          </div>
+                        </div>
+                        <div className="flex gap-3">
+                          <IoIosCheckmarkCircle
+                            className="text-green-500 mr-2 cursor-pointer"
+                            onClick={() => statusUpdate(completedTodo._id)}
+                            size={25}
+                          />
+                          <FiEdit3
+                            className="text-blue-500 mr-2 cursor-pointer"
+                            size={25}
+                            onClick={() => handleEdit(completedTodo)}
+                          />
+                          <MdDeleteOutline
+                            className="text-red-500 cursor-pointer "
+                            size={25}
+                            onClick={() => handleDelete(completedTodo._id)}
+                          />
+                        </div>
                       </div>
-                      <div className="text-gray-500 text-sm">
-                        {new Date(completedTodo.date).toLocaleDateString()}
-                      </div>
-                    </div>
-                    <div className="flex gap-3">
-                      <IoIosCheckmarkCircle
-                        className="text-green-500 mr-2 cursor-pointer"
-                        onClick={() => statusUpdate(completedTodo._id)}
-                        size={25}
-                      />
-                      <FiEdit3
-                        className="text-blue-500 mr-2 cursor-pointer"
-                        size={25}
-                        onClick={() => handleEdit(completedTodo)}
-                      />
-                      <MdDeleteOutline
-                        className="text-red-500 cursor-pointer "
-                        size={25}
-                        onClick={() => handleDelete(completedTodo._id)}
-                      />
-                    </div>
-                  </div>
-                ))}
+                    )
+                )}
               </div>
             </div>
           </div>
@@ -220,7 +240,7 @@ const Home = () => {
             background: "#fff",
             padding: "20px",
             borderRadius: "8px",
-            boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
+            boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
           },
         }}
       >
@@ -263,7 +283,7 @@ const Home = () => {
             background: "#fff",
             padding: "20px",
             borderRadius: "8px",
-            boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
+            boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
           },
         }}
       >

@@ -4,10 +4,12 @@ import { Link } from "react-router-dom";
 import { IoMailOutline, IoLockClosedOutline } from "react-icons/io5";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import axios from "axios";
+import { useAuth } from "../context/authContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { token, setToken, userId, setUserId } = useAuth();
 
   // for styling
   const [showPassword, setShowPassword] = useState(false);
@@ -38,9 +40,14 @@ const Login = () => {
         return;
       }
       else{
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("userId", response.data.userId);
-        navigate("/home");
+        // localStorage.setItem("token", response.data.token);
+        // localStorage.setItem("userId", response.data.userId);
+
+        setToken(response.data.token);
+        setUserId(response.data.userId);
+
+        console.log(response.data.token);
+        navigate("/home",{replace:true});
         alert("User logged in successfully");
       }
 

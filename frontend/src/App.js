@@ -1,8 +1,11 @@
 import AppNavigation from './navigation/AppNavigation';
+import { AuthProvider } from './context/authContext';
 
 function App() {
   return (
-    <AppNavigation />
+    <AuthProvider>
+      <AppNavigation />
+    </AuthProvider>
   );
 }
 
